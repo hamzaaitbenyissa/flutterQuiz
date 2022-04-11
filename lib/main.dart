@@ -3,15 +3,14 @@ import 'package:app1/result.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return MyAppstate();
-  }
+  State<StatefulWidget> createState() => MyAppstate();
 }
 
 class MyAppstate extends State<MyApp> {
@@ -78,8 +77,7 @@ class MyAppstate extends State<MyApp> {
   void reset() {
     setState(() {
       _questionindex = 0;
-      print("reset clicked");
-      print(_questionindex);
+      _totalescore = 0;
     });
   }
 
@@ -88,15 +86,17 @@ class MyAppstate extends State<MyApp> {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: const Text("Quiz App"),
-        backgroundColor: const Color.fromRGBO(11, 0, 98, 0.8),
+        centerTitle: true,
+        title: const Text("English Quiz"),
+        backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+        foregroundColor: const Color.fromRGBO(0, 0, 0, 1),
       ),
       body: _questionindex < _questions.length
           ? Quiz(
               questions: _questions,
               answerQuestion: _answerQuestion,
               questionindex: _questionindex)
-          : Result(_totalescore,reset),
+          : Result(_totalescore, reset),
       backgroundColor: const Color.fromRGBO(255, 255, 255, 0.8),
     ));
   }
