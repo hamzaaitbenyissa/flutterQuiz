@@ -1,5 +1,5 @@
-import 'package:app1/answer.dart';
-import 'package:app1/question.dart';
+import 'package:app1/quiz.dart';
+import 'package:app1/result.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,37 +15,72 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppstate extends State<MyApp> {
-  var questionindex = 0;
+  var _questionindex = 0;
+  var _totalescore = 0;
 
-  List<Map<String, dynamic>> questions = [
+  final List<Map<String, dynamic>> _questions = [
     {
-      "question": "What is your favorite color ?",
-      "answers": ["Red", "Green", "Yellow"]
+      "question": "I'm very happy _____ in Morocco. I really miss being there.",
+      "answers": [
+        {"text": "to live", "score": 0},
+        {"text": "to have lived ", "score": 2},
+        {"text": "to be lived", "score": 0},
+        {"text": "to be living", "score": 0},
+      ]
     },
     {
-      "question": "What is your favorite animal ?",
-      "answers": ["Cat", "Dog", "Rabbit"]
+      "question": "They didn't reach an agreement ______ their differences.",
+      "answers": [
+        {"text": "on account of", "score": 2},
+        {"text": "due", "score": 0},
+        {"text": "because", "score": 0},
+        {"text": "owing", "score": 0},
+      ]
     },
     {
-      "question": "What is your favorite hobbie ?",
-      "answers": ["Football", "Guitar", "Swimming"]
+      "question": "I wish I _____ those words. But now it's too late.",
+      "answers": [
+        {"text": "not having said", "score": 0},
+        {"text": "have never said", "score": 0},
+        {"text": "never said", "score": 0},
+        {"text": "had never said", "score": 2},
+      ]
+    },
+    {
+      "question":
+          "The woman, who has been missing for 10 days, is believed _____.",
+      "answers": [
+        {"text": "to be abducted", "score": 0},
+        {"text": "to be abducting", "score": 0},
+        {"text": "to have been abducted", "score": 2},
+        {"text": "to have been abducting", "score": 0},
+      ]
+    },
+    {
+      "question":
+          "She was working on her computer with her baby next to _____.",
+      "answers": [
+        {"text": "herself", "score": 0},
+        {"text": "her", "score": 2},
+        {"text": "her own", "score": 0},
+        {"text": "hers", "score": 0},
+      ]
     },
   ];
 
-  var _results = {
-    'Key_1': "Value_1",
-    'Key_2': "Value_2",
-  };
-
-  void _answerQuestion() {
-
-    if(questionindex < questions.length-1){
+  void _answerQuestion(int qstscore) {
+    _totalescore += qstscore;
     setState(() {
-      questionindex = questionindex + 1;
+      _questionindex = _questionindex + 1;
     });
-    print(questionindex);
-    }
+  }
 
+  void reset() {
+    setState(() {
+      _questionindex = 0;
+      print("reset clicked");
+      print(_questionindex);
+    });
   }
 
   @override
@@ -56,13 +91,13 @@ class MyAppstate extends State<MyApp> {
         title: const Text("Quiz App"),
         backgroundColor: const Color.fromRGBO(11, 0, 98, 0.8),
       ),
-      body: Column(children: [
-        Question(questions[questionindex]['question']),
-        // ... means we get tha values of list because map return list
-        ...(questions[questionindex]['answers'])
-            .map((answer) => Answer(_answerQuestion, answer))
-      ]),
-      backgroundColor: Color.fromRGBO(255, 255, 255, 0.8),
+      body: _questionindex < _questions.length
+          ? Quiz(
+              questions: _questions,
+              answerQuestion: _answerQuestion,
+              questionindex: _questionindex)
+          : Result(_totalescore,reset),
+      backgroundColor: const Color.fromRGBO(255, 255, 255, 0.8),
     ));
   }
 }

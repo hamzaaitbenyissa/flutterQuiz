@@ -10,7 +10,7 @@ class Question extends StatelessWidget {
       width: double.infinity,
       margin: const EdgeInsets.all(10),
       child: Text(questionText,
-          style: const TextStyle(fontSize: 24), textAlign: TextAlign.center),
+          style: const TextStyle(fontSize: 20,fontWeight:  FontWeight.bold), textAlign: TextAlign.center),
     );
   }
 }
